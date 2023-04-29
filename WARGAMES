@@ -1,0 +1,36 @@
+# LEVEL 0
+          - Login credentials given
+
+# LEVEL 0 - LEVEL 1
+        - After logging to 0 level it says " You can find the password for the next level on this page. "
+        - WE VIEW THE PAGE SOURCE, again asked to login to level 0
+        - <!--The password for natas1 is g9D9cREhslqBKtcA2uocGHPfMZVzeFK6 -->
+        
+# LEVEL 1 - LEVEL 2
+        - After logging to 1st level it says "You can find the password for the next level on this page, but rightclicking has been blocked! "
+        - So to view the page source we use " CTRL+U"
+        - <!--The password for natas2 is h4ubbcXrWqsTo7GGnnUMLppXbOogfBZ7 -->
+        
+ # LEVEL 2 - LEVEL 3
+        - After logging to 2nd level it says "There is nothing on this page "
+        - So view the page source and find " <img src="files/pixel.png"> "
+        - after opening that URL " view-source:http://natas2.natas.labs.overthewire.org/files/ ", we get a "users.txt" file
+        - upon opening users.txt we get the req password.
+        - natas3:G6ctbMJ5Nb4cbFwhpMPSvxGHhQ7I6W8Q.
+        
+# LEVEL 3 - LEVEL 4
+        - After logging to 3rd level it says "There is nothing on this page "
+        - So view the page source and find " <!-- No more information leaks!! Not even Google will find it this time... --> "
+        - So we use the "robots.txt" extension to get the inaccesible sites.
+        - User-agent: *
+          Disallow: /s3cr3t/
+        - adding /s3cr3t/ to the url we get the another "users.txt " file wghich stores the req password.
+        - natas4:tKOcJIbzM4lTs8hbCmzn5Zr4434fGZQm
+        
+       
+ # LEVEL 4 - LEVEL 5
+        - After logging to 4th level it says "TAccess disallowed. You are visiting from "" while authorized users should come only from "http://natas5.natas.labs.overthewire.org/"  "
+        - So  
+        - after opening that URL " view-source:http://natas2.natas.labs.overthewire.org/files/ ", we get a "users.txt" file
+        - upon opening users.txt we get the req password.
+        - natas3:G6ctbMJ5Nb4cbFwhpMPSvxGHhQ7I6W8Q.
