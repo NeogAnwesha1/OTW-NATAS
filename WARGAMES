@@ -38,6 +38,60 @@
  # LEVEL 5 - LEVEL 6
         - After logging to 5th level it says " Access disallowed. You are not logged in. "
         - So we got " inspect -> network -> edit and resend. "
-        - We see that under response header " loggedin = 0 " which we change to 1
-        - after forwarding the request we get " Access granted. The password for natas5 is Z0NsrtIkJoKALBCLi5eqFfcRN82Au2oD "
+        - We see that under request header " loggedin = 0 " which we change to 1
+        - after forwarding the request we get " Access granted. The password for natas6 is fOIvE0MDtPTgRhqmmvvAOt2EfXR6uQgR "
         
+# LEVEL 6 - LEVEL 7
+        - After logging to 6th level it says " Input secret: "
+        - So we view "source code"
+        - There we find a file included "includes/secret.inc"
+        - after adding it to the URL we get a blank page. So we check the sourcecode of this page.
+        - There we get " $secret = "FOEIUWGHFEEUHOFUOIU"; " and we input it to the  secret button"
+        - Finally we get, " Access granted. The password for natas7 is jmxSiH3SP6Sonf8dv66ng8v1cIEdjXWr "
+        
+# LEVEL 7 - LEVEL 8
+        - After logging to 7th level it gives two links "Home" "About"
+        - Link "Home" returns " this is the front page "
+        - Link "About" returns " this is the about page  "
+        - On checking the source code, it hinted that " hint: password for webuser natas8 is in /etc/natas_webpass/natas8 "
+        - After the command injection,  we get the password " a6bZCNYwdKqN5cGP11ZdtPg0iImQQhAB " 
+        
+ # LEVEL 8 - LEVEL 9
+        - After logging to 8th level it asks " Input secret: "
+        - On checking the source code, it shows that secret is encoded.
+        " encodedSecret = "3d3d516343746d4d6d6c315669563362";
+          function encodeSecret($secret) {
+                    return bin2hex(strrev(base64_encode($secret)));
+                                        }
+          if(array_key_exists("submit", $_POST)) {
+                    if(encodeSecret($_POST['secret']) == $encodedSecret) {
+                    print "Access granted. The password for natas9 is <censored>";
+                    } else {
+                    print "Wrong secret";
+                    }
+                   } "
+        - So we decode try decode the secret, " php -a
+                                                Interactive mode enabled   
+                                                php > echo base64_decode(strrev(hex2bin('3d3d516343746d4d6d6c315669563362')));
+                                                oubWYf2kBq "
+        - Finally we get the password, " Access granted. The password for natas9 is Sda6t0vkOPkM8YeOZkAGVhFoaplvlJFd "
+
+# LEVEL 9 - LEVEL 10
+        - After logging to 9th level it says " Find words containing: "
+        - So we view to its source code, and found that when we enter a keyword, it is passed via a function called ' passthru() ". It takes the value in " $key " and executes it directly. "
+        - So, we use (;) to execute multiple commands.
+        - writing "; cat " only gives a set of words in alphabetical order.
+        - So we use " ; cat /etc/natas_webpass/natas10 " to get the password
+        - The req passwords is : D44EcsFkLxPIkAAKLosx8z3hxX1Z4MCE
+        
+# LEVEL 10 - LEVEL 11
+        - After logging to 10th level it says " For security reasons, we now filter on certain characters. Find words containing:  "
+        - So we view to its source code.
+        - found that when we enter a keyword, it is passed via a function called " passthru() ". It takes the value in " $key " and it filters the input of the characters " ;,|,& " 
+        - Since we cannot use ";", we use " .* " to execute multiple commands
+        - Using " .*/etc/natas_webpass/natas11 " we get req password. 
+        - " /etc/natas_webpass/natas11:1KFqoJXi6hRaPluAmk8ESDW4fSysRoIg "
+        
+        
+        
+
