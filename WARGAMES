@@ -29,8 +29,15 @@
         
        
  # LEVEL 4 - LEVEL 5
-        - After logging to 4th level it says "TAccess disallowed. You are visiting from "" while authorized users should come only from "http://natas5.natas.labs.overthewire.org/"  "
-        - So  
-        - after opening that URL " view-source:http://natas2.natas.labs.overthewire.org/files/ ", we get a "users.txt" file
-        - upon opening users.txt we get the req password.
-        - natas3:G6ctbMJ5Nb4cbFwhpMPSvxGHhQ7I6W8Q.
+        - After logging to 4th level it says "Access disallowed. You are visiting from "" while authorized users should come only from "http://natas5.natas.labs.overthewire.org/"  "
+        - So we got " inspect -> network -> edit and resend. "
+        - We change the referer to " http://natas5.natas.labs.overthewire.org/" 
+        - after forwarding the request we get " Access granted. The password for natas5 is Z0NsrtIkJoKALBCLi5eqFfcRN82Au2oD "
+        
+       
+ # LEVEL 5 - LEVEL 6
+        - After logging to 5th level it says " Access disallowed. You are not logged in. "
+        - So we got " inspect -> network -> edit and resend. "
+        - We see that under response header " loggedin = 0 " which we change to 1
+        - after forwarding the request we get " Access granted. The password for natas5 is Z0NsrtIkJoKALBCLi5eqFfcRN82Au2oD "
+        
