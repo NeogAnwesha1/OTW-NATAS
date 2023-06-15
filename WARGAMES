@@ -91,6 +91,53 @@
         - Since we cannot use ";", we use " .* " to execute multiple commands
         - Using " .*/etc/natas_webpass/natas11 " we get req password. 
         - " /etc/natas_webpass/natas11:1KFqoJXi6hRaPluAmk8ESDW4fSysRoIg "
+
+LEVEL 11 - LEVEL 12
+        - After logging to 11th level it says " Cookies are protected with XOR encryption "
+        - So we view to its source code.
+        - found that the data stored in our cookie is “encrypted” by xoring with a censored string $key and that the default data is json encoded array.
+        - data = MGw7JCQ5OC04PT8jOSpqdmkgJ25nbCorKCEkIzlscm5oKC4qLSgubjY%3D.
+        - So we first find the $Key value:
+
+    function xor_encrypt($in) {
+    $key = json_encode(array("showpassword" => "no", "bgcolor" => "#ffffff"));
+    $text = $in;
+    $outText = '';
+    for ($i = 0; $i < strlen($text); $i++) {
+        $outText .= $text[$i] ^ $key[$i % strlen($key)];
+    }
+    return $outText;
+}
+
+$cookie = "MGw7JCQ5OC04PT8jOSpqdmkgJ25nbCorKCEkIzlscm5oKC4qLSgubjY=";
+echo xor_encrypt(base64_decode($cookie));
+
+        - This gives the output as " KNHLKNHLKNHLKNHLKNHLKNHLKNHLKNHLKNHLKNHLK "
+        - So $key = KNHL.
+        - Since we’ve got the $key, we can build our own data setting showpassword to yes:
+
+function xor_encrypt($in) {
+    $key = "KNHL";
+    $text = $in;
+    $outText = '';
+    for ($i = 0; $i < strlen($text); $i++) {
+        $outText .= $text[$i] ^ $key[$i % strlen($key)];
+    }
+    return $outText;
+}
+
+$encodedData = base64_encode(xor_encrypt(json_encode(array("showpassword" => "yes", "bgcolor" => "#ffffff"))));
+echo $encodedData;
+
+      -The OUTPUT IS " MGw7JCQ5OC04PT8jOSpqdmk3LT9pYmouLC0nICQ8anZpbS4qLSguKmkz "
+      -Change the value of " data" in cookies with the new one to get the password.
+      -he req passwords is : "YWqo0pjpcXzSIl5NMAVxg12QxeC1w9QG"
+
+# LEVEL 11 - LEVEL 12
+        - After logging to 12th level it says " Choose a JPEG to upload (max 1KB): "
+        
+        - The req passwords is : D44EcsFkLxPIkAAKLosx8z3hxX1Z4MCE
+  
         
         
         
